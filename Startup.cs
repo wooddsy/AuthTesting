@@ -61,7 +61,7 @@ namespace AuthTesting
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
                     NameClaimType = "name",
-                    RoleClaimType = "https://schemas.quickstarts.com/roles"
+                    RoleClaimType = "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"
                 };
 
                 options.Events = new OpenIdConnectEvents
