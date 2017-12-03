@@ -4,11 +4,11 @@ using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using AuthTesting.ViewModels;
+using Frontend.ViewModels;
 using System.Linq;
 using System.Security.Claims;
 
-namespace AuthTesting.Controllers
+namespace Frontend.Controllers
 {
     public class AccountController : Controller
     {
@@ -38,6 +38,7 @@ namespace AuthTesting.Controllers
                 Name = User.Identity.Name,
                 EmailAddress = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value,
                 ProfileImage = User.Claims.FirstOrDefault(c => c.Type == "picture")?.Value
+                
             });
         }
 
