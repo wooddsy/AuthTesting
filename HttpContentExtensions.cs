@@ -12,5 +12,6 @@ namespace Frontend
             T value = JsonConvert.DeserializeObject<T>(json);
             return value;
         }
+
     }
 }

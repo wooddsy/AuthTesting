@@ -5,13 +5,17 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Frontend.Model;
+using RestSharp;
 
 namespace Frontend.Controllers
 {
     public class BasketController : Controller
     {
+        
+        Basket basket;
         Apicaller api;
-        string apiaddress = "";
+        static RestClient client = new RestClient();
+        string apiaddress = "http://localhost:51130/";
         // GET: Basket
         public ActionResult Index()
         {
@@ -20,17 +24,35 @@ namespace Frontend.Controllers
         }
 
         // GET: Basket/Details/5
-        public ActionResult Details(int id)
+        public ActionResult Details()
         {
-            
-            string idstring = id.ToString();
-            return View(api.addtoBasket<Basket>(apiaddress, idstring).Result);
+
+            return View();
         }
 
         // GET: Basket/Create
         public ActionResult Create()
         {
-            return View();
+            
+            basket = new Basket { userId = "TestId", productId = 1, Quantity = 1 };
+            api = new Apicaller();
+
+
+
+            client.BaseUrl = new Uri(apiaddress);
+            // IRestResponse response;
+            var request = new RestRequest("/api/Basket/add/", Method.POST);
+            request.AddObject(basket);
+            request.AddHeader("Bearer", "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik5rVXlOa001UlRsRlJVRTNOemxGUlVZM01UQTRNelE0TVVFeE5UUXhOa1l3TURJMFJESTJPQSJ9.eyJpc3MiOiJodHRwczovL3RoYW1jby5ldS5hdXRoMC5jb20vIiwic3ViIjoiNWtYV3RxbERBMk02QVBtZjlkaXF1NjdHSjBGdzJRU0lAY2xpZW50cyIsImF1ZCI6IkJhc2tldCIsImlhdCI6MTUxMjQ4NDc2NiwiZXhwIjoxNTEyNTcxMTY2LCJzY29wZSI6ImNyZWF0ZTpiYXNrZXQgcmVhZDpiYXNrZXQiLCJndHkiOiJjbGllbnQtY3JlZGVudGlhbHMifQ.XiTFA3m4ukx6VTgP5khWuuDQcRiF0KmMZ4f7obF_mgdYHlRZsXz9ElILVyjIz-gyklVLG0W0uI3IoT7aT3Y4rR9u1kHgn9ZonpJf5YeWT6N_oiTYRVEvNB9jQdi1XxQ1tAj8AiYnm7q2KKiTtAZtgo3kzPPxh7bxvkSPo15EiHQrqHb1_cKq1S47kZt_-0sn4SIVOvHxDMpX_s-yLRCmc3D6rkZWnIOc4EpDEmRImPGWL6v8so7uOXoQhM7pVlFqEZgtFSI-tcMjZHjCulJJMHk2D19u4Mfw__iOTdoYwOytlDr-LVZUu_qPmHZDQ5BttgGjHOAcl8yI_XliAWC68g");
+            //request.AddQueryParameter("userId",payload.userId);
+            //request.AddQueryParameter("productId", payload.productId.ToString());
+            //request.AddQueryParameter("quantity", payload.Quantity.ToString());
+
+            var response =  client.Execute(request);
+
+            
+
+            return View(response);
         }
 
         // POST: Basket/Create

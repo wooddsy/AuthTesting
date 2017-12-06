@@ -7,8 +7,8 @@ namespace Frontend.Model
 {
     public class Basket
     {
-        string userId { get; set; }
-        int productId { get; set; }
-        int Quantity { get; set; }
+       public string userId { get; set; }
+       public int productId { get; set; }
+       public int Quantity { get; set; }
     }
 }
